@@ -20,7 +20,7 @@ import {
   Typography,
   IconButton,
   TableContainer,
-  TablePagination,
+  TablePagination
 } from '@mui/material';
 // components
 import Label from '../components/label';
@@ -30,7 +30,6 @@ import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 // mock
 import USERLIST from '../_mock/user';
-import AddClientModal from '../components/modals/AddLead';
 
 // ----------------------------------------------------------------------
 
@@ -40,7 +39,7 @@ const TABLE_HEAD = [
   { id: 'role', label: 'Role', alignRight: false },
   { id: 'isVerified', label: 'Verified', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false },
-  { id: '' },
+  { id: '' }
 ];
 
 // ----------------------------------------------------------------------
@@ -56,9 +55,7 @@ function descendingComparator(a, b, orderBy) {
 }
 
 function getComparator(order, orderBy) {
-  return order === 'desc'
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
+  return order === 'desc' ? (a, b) => descendingComparator(a, b, orderBy) : (a, b) => -descendingComparator(a, b, orderBy);
 }
 
 function applySortFilter(array, comparator, query) {
@@ -161,8 +158,6 @@ export default function UserPage() {
           <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
             New Lead
           </Button>
-
-          {/* <AddClientModal/> */}
         </Stack>
 
         <Card>
@@ -231,7 +226,7 @@ export default function UserPage() {
                       <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
                         <Paper
                           sx={{
-                            textAlign: 'center',
+                            textAlign: 'center'
                           }}
                         >
                           <Typography variant="h6" paragraph>
@@ -277,9 +272,9 @@ export default function UserPage() {
             '& .MuiMenuItem-root': {
               px: 1,
               typography: 'body2',
-              borderRadius: 0.75,
-            },
-          },
+              borderRadius: 0.75
+            }
+          }
         }}
       >
         <MenuItem>

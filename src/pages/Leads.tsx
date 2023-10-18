@@ -20,16 +20,24 @@ import {
   Typography,
   IconButton,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Box,
+  Grid,
+  Select,
+  FormControl,
+  InputLabel,
+  SelectChangeEvent
 } from '@mui/material';
+
 import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import USERLIST from '../_mock/user';
-import AddClientModal from '../components/modals/AddLead';
-import { LeadsTypes } from '../../type';
+import { LeadsResponseTypes, LeadsTypes } from '../../type';
 import axios from 'axios';
+import CustomModal from '../components/modals/CustomModal';
+import CustomInput from '../components/input/CustomInput';
 
 const TABLE_HEAD = [
   { id: 'firstName', label: 'First Name', alignRight: false },
@@ -66,8 +74,29 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
+const leadsInitialState = {
+  firstName: '',
+  lastName: '',
+  email: '',
+  phone: '',
+  categoryId: ''
+};
+
+const categoryInitialState = {
+  name: '',
+  description: ''
+};
+
 export default function Leads() {
   const [leads, setLeads] = useState<LeadsTypes[]>([]);
+  const [categories, setCategories] = useState<LeadsResponseTypes[]>([]);
+  const [lead, setLead] = useState<LeadsTypes>(leadsInitialState);
+  const [category, setCategory] = useState<LeadsResponseTypes>(categoryInitialState);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
+  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+
+  //!----------------------
   const [open, setOpen] = useState(null);
   const [page, setPage] = useState(0);
 
@@ -85,14 +114,34 @@ export default function Leads() {
     axios.defaults.withCredentials = true;
     (async () => {
       try {
+        const categoryResponse = await axios.get('http://localhost:4000/rest/category');
         const response = await axios.get('http://localhost:4000/rest/lead');
-        console.log('response-------', response?.data?.data);
+        setCategories(categoryResponse?.data?.data);
         setLeads(response?.data?.data);
       } catch (error) {
-        console.log('Error----------', error);
+        console.log('Error:(', error);
       }
     })();
   }, []);
+
+  const submitLead = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/rest/lead', lead);
+      setLeads([...leads, response?.data?.data]);
+      setIsModalOpen(false);
+    } catch (error) {
+      console.log('Error:(', error);
+    }
+  };
+  const submitCategory = async () => {
+    try {
+      const response = await axios.post('http://localhost:4000/rest/category', category);
+      setCategories([...categories, response?.data?.data]);
+      setIsCategoryModalOpen(false);
+    } catch (error) {
+      console.log('Error:(', error);
+    }
+  };
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -155,24 +204,111 @@ export default function Leads() {
   return (
     <>
       <Helmet>
-        <title> User | Minimal UI </title>
+        <title> Lead | Minimal UI </title>
       </Helmet>
 
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Leads
           </Typography>
-          <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-            New Lead
-          </Button>
-
-          {/* <AddClientModal/> */}
+          <Box sx={{ display: 'flex', gap: '1rem' }}>
+            <Button variant="contained" onClick={() => setIsCategoryModalOpen(true)} startIcon={<Iconify icon="eva:plus-fill" />}>
+              New Category
+            </Button>
+            <Button variant="contained" onClick={() => setIsModalOpen(true)} startIcon={<Iconify icon="eva:plus-fill" />}>
+              New Lead
+            </Button>
+          </Box>
         </Stack>
-
+        <Stack direction="row" alignItems="center" gap={2} mb={5}>
+          {categories.map((category: LeadsResponseTypes) => (
+            <Button key={category.id} variant="outlined">
+              {category.name}
+            </Button>
+          ))}
+        </Stack>
+        <CustomModal title="Add Lead" open={isModalOpen} setOpen={() => setIsModalOpen(false)} handleSubmit={submitLead}>
+          <Grid>
+            <CustomInput
+              label="First Name"
+              name={lead.firstName}
+              value={lead.firstName}
+              onChange={(e) => {
+                setLead({ ...lead, firstName: e.target.value });
+              }}
+            />
+            <CustomInput
+              label="Last Name"
+              name={lead.lastName}
+              value={lead.lastName}
+              onChange={(e) => {
+                setLead({ ...lead, lastName: e.target.value });
+              }}
+            />
+            <CustomInput
+              label="Email"
+              name={lead.email}
+              value={lead.email}
+              onChange={(e) => {
+                setLead({ ...lead, email: e.target.value });
+              }}
+            />
+            <CustomInput
+              label="Phone"
+              name={lead.phone}
+              value={lead.phone}
+              onChange={(e) => {
+                setLead({ ...lead, phone: e.target.value });
+              }}
+            />
+            <FormControl fullWidth sx={{ mt: '.8rem' }}>
+              <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
+              <Select
+                labelId="demo-simple-select-label"
+                id="demo-simple-select"
+                value={lead.categoryId}
+                label="Select Category"
+                onChange={(e: SelectChangeEvent) => {
+                  setLead({ ...lead, categoryId: e.target.value });
+                }}
+              >
+                {categories.map((category: LeadsResponseTypes) => (
+                  <MenuItem key={category.id} value={category.id}>
+                    {category.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+        </CustomModal>
+        <CustomModal
+          title="Add Category"
+          open={isCategoryModalOpen}
+          setOpen={() => setIsCategoryModalOpen(false)}
+          handleSubmit={submitCategory}
+        >
+          <Grid>
+            <CustomInput
+              label="Name"
+              name={category.name}
+              value={category.name}
+              onChange={(e) => {
+                setCategory({ ...category, name: e.target.value });
+              }}
+            />
+            <CustomInput
+              label="Description"
+              name={category.description}
+              value={category.description}
+              onChange={(e) => {
+                setCategory({ ...category, description: e.target.value });
+              }}
+            />
+          </Grid>
+        </CustomModal>
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
-
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
@@ -186,30 +322,30 @@ export default function Leads() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {filteredUsers.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => {
-                    const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                    const selectedUser = selected.indexOf(name) !== -1;
+                  {leads.map((lead: LeadsTypes, index) => {
+                    const { id, firstName, lastName, email, phone } = lead;
+                    const selectedUser = selected.indexOf(filterName) !== -1;
 
                     return (
                       <TableRow hover key={id} tabIndex={-1} role="checkbox" selected={selectedUser}>
                         <TableCell padding="checkbox">
-                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, name)} />
+                          <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, firstName)} />
                         </TableCell>
 
                         <TableCell component="th" scope="row" padding="none">
                           <Stack direction="row" alignItems="center" spacing={2}>
-                            <Avatar alt={name} src={avatarUrl} />
+                            <Avatar alt={firstName} src={`/assets/images/avatars/avatar_${index + 1}.jpg`} />
                             <Typography variant="subtitle2" noWrap>
-                              {name}
+                              {firstName}
                             </Typography>
                           </Stack>
                         </TableCell>
 
-                        <TableCell align="left">{company}</TableCell>
+                        <TableCell align="left">{lastName}</TableCell>
 
-                        <TableCell align="left">{role}</TableCell>
+                        <TableCell align="left">{email}</TableCell>
 
-                        <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                        <TableCell align="left">{phone}</TableCell>
                         <TableCell align="right">
                           <IconButton size="large" color="inherit" onClick={handleOpenMenu}>
                             <Iconify icon={'eva:more-vertical-fill'} />

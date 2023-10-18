@@ -32,7 +32,6 @@ const LoginForm = () => {
     <>
       <Stack spacing={3}>
         <TextField value={email} onChange={(e) => setEmail(e.target.value)} name="email" label="Email address" />
-
         <TextField
           value={password}
           onChange={(e) => setPassword(e.target.value)}
