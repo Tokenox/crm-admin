@@ -45,11 +45,14 @@
     "@mui/lab": "^5.0.0-alpha.103",
     "@mui/material": "^5.10.9",
     "@mui/x-license-pro": "^5.17.12",
+    "@types/axios": "^0.14.0",
     "@types/jest": "^29.5.5",
     "@types/node": "^20.8.6",
     "@types/react": "^18.2.28",
     "@types/react-dom": "^18.2.13",
+    "add": "^2.0.6",
     "apexcharts": "^3.36.0",
+    "axios": "^1.5.1",
     "change-case": "^4.1.2",
     "date-fns": "^2.29.3",
     "history": "^5.3.0",
@@ -67,7 +70,8 @@
     "react-scripts": "^5.0.1",
     "simplebar-react": "^2.4.3",
     "typescript": "^5.2.2",
-    "web-vitals": "^3.0.3"
+    "web-vitals": "^3.0.3",
+    "yarn": "^1.22.19"
   },
   "devDependencies": {
     "@babel/core": "^7.19.3",
@@ -80,7 +84,7 @@
     "eslint-plugin-flowtype": "^8.0.3",
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-jsx-a11y": "^6.6.1",
-    "eslint-plugin-prettier": "^4.2.1",
+    "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
     "prettier": "^2.7.1"

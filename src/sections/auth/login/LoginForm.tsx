@@ -1,18 +1,13 @@
+import React from 'react';
 import { useState } from 'react';
-
 import { useNavigate } from 'react-router-dom';
-// @mui
-
 import { Link, Stack, IconButton, InputAdornment, TextField, Checkbox } from '@mui/material';
-
 import { LoadingButton } from '@mui/lab';
-
-// components
 import Iconify from '../../../components/iconify';
+import { postData } from '../../../libs/cors/apiClient';
+import axios from 'axios';
 
-// ----------------------------------------------------------------------
-
-export default function LoginForm() {
+const LoginForm = () => {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -20,7 +15,18 @@ export default function LoginForm() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleClick = () => {};
+  const handleClick = async () => {
+    try {
+      const resonse = await axios.post('http://localhost:4000/rest/auth/login', {
+        email: email,
+        password: password
+      });
+      const token = resonse?.data?.data?.token;
+      document.cookie = `session=${token}`;
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <>
@@ -40,13 +46,13 @@ export default function LoginForm() {
                   <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
                 </IconButton>
               </InputAdornment>
-            ),
+            )
           }}
         />
       </Stack>
 
       <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <Checkbox name="remember" label="Remember me" />
+        <Checkbox name="remember" />
         <Link variant="subtitle2" underline="hover">
           Forgot password?
         </Link>
@@ -57,4 +63,6 @@ export default function LoginForm() {
       </LoadingButton>
     </>
   );
-}
+};
+
+export default LoginForm;

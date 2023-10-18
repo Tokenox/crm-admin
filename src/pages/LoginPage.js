@@ -1,22 +1,15 @@
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
-// @mui
 import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet-async';
-
-// hooks
 import useResponsive from '../hooks/useResponsive';
-// components
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
-// sections
-import { LoginForm } from '../sections/auth/login';
-
-// ----------------------------------------------------------------------
+import LoginForm from '../sections/auth/login/LoginForm';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
-    display: 'flex',
-  },
+    display: 'flex'
+  }
 }));
 
 const StyledSection = styled('div')(({ theme }) => ({
@@ -26,7 +19,7 @@ const StyledSection = styled('div')(({ theme }) => ({
   flexDirection: 'column',
   justifyContent: 'center',
   boxShadow: theme.customShadows.card,
-  backgroundColor: theme.palette.background.default,
+  backgroundColor: theme.palette.background.default
 }));
 
 const StyledContent = styled('div')(({ theme }) => ({
@@ -36,12 +29,10 @@ const StyledContent = styled('div')(({ theme }) => ({
   display: 'flex',
   justifyContent: 'center',
   flexDirection: 'column',
-  padding: theme.spacing(12, 0),
+  padding: theme.spacing(12, 0)
 }));
 
-// ----------------------------------------------------------------------
-
-export default function LoginPage() {
+const LoginPage = () => {
   const mdUp = useResponsive('up', 'md');
 
   return (
@@ -55,7 +46,7 @@ export default function LoginPage() {
           sx={{
             position: 'fixed',
             top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 },
+            left: { xs: 16, sm: 24, md: 40 }
           }}
         />
 
@@ -105,4 +96,6 @@ export default function LoginPage() {
       </StyledRoot>
     </>
   );
-}
+};
+
+export default LoginPage;

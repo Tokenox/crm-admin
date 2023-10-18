@@ -24,14 +24,14 @@ const StyledAccount = styled('div')(({ theme }) => ({
   alignItems: 'center',
   padding: theme.spacing(2, 2.5),
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
-  backgroundColor: alpha(theme.palette.grey[500], 0.12),
+  backgroundColor: alpha(theme.palette.grey[500], 0.12)
 }));
 
 // ----------------------------------------------------------------------
 
 Nav.propTypes = {
   openNav: PropTypes.bool,
-  onCloseNav: PropTypes.func,
+  onCloseNav: PropTypes.func
 };
 
 export default function Nav({ openNav, onCloseNav }) {
@@ -50,7 +50,7 @@ export default function Nav({ openNav, onCloseNav }) {
     <Scrollbar
       sx={{
         height: 1,
-        '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
+        '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' }
       }}
     >
       <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
@@ -81,11 +81,7 @@ export default function Nav({ openNav, onCloseNav }) {
 
       <Box sx={{ px: 2.5, pb: 3, mt: 10 }}>
         <Stack alignItems="center" spacing={3} sx={{ pt: 5, borderRadius: 2, position: 'relative' }}>
-          <Box
-            component="img"
-            src="/assets/illustrations/illustration_avatar.png"
-            sx={{ width: 100, position: 'absolute', top: -50 }}
-          />
+          <Box component="img" src="/assets/illustrations/illustration_avatar.png" sx={{ width: 100, position: 'absolute', top: -50 }} />
 
           <Box sx={{ textAlign: 'center' }}>
             <Typography gutterBottom variant="h6">
@@ -97,9 +93,8 @@ export default function Nav({ openNav, onCloseNav }) {
             </Typography>
           </Box>
 
-
-          <Button href="/login"  variant="contained">
-           Log out
+          <Button href="/login" variant="contained">
+            Log out
           </Button>
         </Stack>
       </Box>
@@ -111,7 +106,7 @@ export default function Nav({ openNav, onCloseNav }) {
       component="nav"
       sx={{
         flexShrink: { lg: 0 },
-        width: { lg: NAV_WIDTH },
+        width: { lg: NAV_WIDTH }
       }}
     >
       {isDesktop ? (
@@ -122,8 +117,8 @@ export default function Nav({ openNav, onCloseNav }) {
             sx: {
               width: NAV_WIDTH,
               bgcolor: 'background.default',
-              borderRightStyle: 'dashed',
-            },
+              borderRightStyle: 'dashed'
+            }
           }}
         >
           {renderContent}
@@ -133,10 +128,10 @@ export default function Nav({ openNav, onCloseNav }) {
           open={openNav}
           onClose={onCloseNav}
           ModalProps={{
-            keepMounted: true,
+            keepMounted: true
           }}
           PaperProps={{
-            sx: { width: NAV_WIDTH },
+            sx: { width: NAV_WIDTH }
           }}
         >
           {renderContent}
