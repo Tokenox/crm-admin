@@ -38,6 +38,7 @@ import { LeadsResponseTypes, LeadsTypes } from '../../type';
 import axios from 'axios';
 import CustomModal from '../components/modals/CustomModal';
 import CustomInput from '../components/input/CustomInput';
+import CsvUpload from '../components/upload-file/CsvUpload';
 
 const TABLE_HEAD = [
   { id: 'firstName', label: 'First Name', alignRight: false },
@@ -94,7 +95,8 @@ export default function Leads() {
   const [category, setCategory] = useState<LeadsResponseTypes>(categoryInitialState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
-  const [selectedCategoryId, setSelectedCategoryId] = useState<string>('');
+  const [isCsvModalOpen, setIsCsvModalOpen] = useState<boolean>(false);
+  const [bulkLeads, setBulkLeads] = useState([]);
 
   //!----------------------
   const [open, setOpen] = useState(null);
@@ -142,6 +144,24 @@ export default function Leads() {
       console.log('Error:(', error);
     }
   };
+
+  const submitBulkLeads = async () => {
+    try {
+      debugger;
+      if (!bulkLeads.length) return;
+      const response = await axios.post('http://localhost:4000/rest/lead/bulk', bulkLeads);
+      setLeads([...leads, ...response?.data?.data]);
+      setIsCsvModalOpen(false);
+    } catch (error) {
+      console.log('Error:(', error);
+    }
+  };
+
+  const handleCsvData = (data) => {
+    setBulkLeads(data);
+  };
+
+  //!----------
 
   const handleOpenMenu = (event) => {
     setOpen(event.currentTarget);
@@ -218,6 +238,9 @@ export default function Leads() {
             </Button>
             <Button variant="contained" onClick={() => setIsModalOpen(true)} startIcon={<Iconify icon="eva:plus-fill" />}>
               New Lead
+            </Button>
+            <Button variant="contained" onClick={() => setIsCsvModalOpen(true)} startIcon={<Iconify icon="eva:plus-fill" />}>
+              Upload Lead CSV
             </Button>
           </Box>
         </Stack>
@@ -307,6 +330,86 @@ export default function Leads() {
             />
           </Grid>
         </CustomModal>
+        <CustomModal
+          title="Upload Lead CSV"
+          open={isCsvModalOpen}
+          setOpen={() => setIsCsvModalOpen(false)}
+          handleSubmit={submitBulkLeads}
+          size="lg"
+        >
+          <CsvUpload handleCsvData={handleCsvData} />
+          <TableContainer sx={{ minWidth: 700, mt: '1rem' }}>
+            <Table>
+              <UserListHead
+                order={order}
+                orderBy={orderBy}
+                headLabel={TABLE_HEAD}
+                rowCount={USERLIST.length}
+                numSelected={selected.length}
+                onRequestSort={handleRequestSort}
+                onSelectAllClick={handleSelectAllClick}
+              />
+              <TableBody>
+                {bulkLeads?.map((lead: LeadsTypes, index) => {
+                  const { firstName, lastName, email, phone } = lead;
+                  const selectedUser = selected.indexOf(filterName) !== -1;
+
+                  return (
+                    <TableRow hover key={firstName} tabIndex={-1} role="checkbox" selected={selectedUser}>
+                      <TableCell padding="checkbox">
+                        <Checkbox checked={selectedUser} onChange={(event) => handleClick(event, firstName)} />
+                      </TableCell>
+
+                      <TableCell component="th" scope="row" padding="none">
+                        <Stack direction="row" alignItems="center" spacing={2}>
+                          <Avatar alt={firstName} src={`/assets/images/avatars/avatar_${index + 1}.jpg`} />
+                          <Typography variant="subtitle2" noWrap>
+                            {firstName}
+                          </Typography>
+                        </Stack>
+                      </TableCell>
+
+                      <TableCell align="left">{lastName}</TableCell>
+
+                      <TableCell align="left">{email}</TableCell>
+
+                      <TableCell align="left">{phone}</TableCell>
+                    </TableRow>
+                  );
+                })}
+                {emptyRows > 0 && (
+                  <TableRow style={{ height: 53 * emptyRows }}>
+                    <TableCell colSpan={6} />
+                  </TableRow>
+                )}
+              </TableBody>
+
+              {isNotFound && (
+                <TableBody>
+                  <TableRow>
+                    <TableCell align="center" colSpan={6} sx={{ py: 3 }}>
+                      <Paper
+                        sx={{
+                          textAlign: 'center'
+                        }}
+                      >
+                        <Typography variant="h6" paragraph>
+                          Not found
+                        </Typography>
+
+                        <Typography variant="body2">
+                          No results found for &nbsp;
+                          <strong>&quot;{filterName}&quot;</strong>.
+                          <br /> Try checking for typos or using complete words.
+                        </Typography>
+                      </Paper>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              )}
+            </Table>
+          </TableContainer>
+        </CustomModal>
         <Card>
           <UserListToolbar numSelected={selected.length} filterName={filterName} onFilterName={handleFilterByName} />
           <Scrollbar>
@@ -354,6 +457,7 @@ export default function Leads() {
                       </TableRow>
                     );
                   })}
+
                   {emptyRows > 0 && (
                     <TableRow style={{ height: 53 * emptyRows }}>
                       <TableCell colSpan={6} />

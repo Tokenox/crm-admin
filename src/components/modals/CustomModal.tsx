@@ -3,7 +3,6 @@ import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 
 interface CustomModalProps {
@@ -12,8 +11,9 @@ interface CustomModalProps {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
   handleSubmit: () => void;
   children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg';
 }
-const CustomModal = ({ title, open, setOpen, handleSubmit, children }: CustomModalProps) => {
+const CustomModal = ({ title, open, setOpen, handleSubmit, size = 'sm', children }: CustomModalProps) => {
   const handleClose = () => {
     setOpen(false);
   };
@@ -26,7 +26,7 @@ const CustomModal = ({ title, open, setOpen, handleSubmit, children }: CustomMod
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
         fullWidth={true}
-        maxWidth="sm"
+        maxWidth={size}
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>{children}</DialogContent>
