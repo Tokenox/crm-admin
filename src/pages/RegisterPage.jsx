@@ -36,7 +36,7 @@ const RegisterPage = () => {
   return (
     <>
       <Helmet>
-        <title> Login | RH -CRM </title>
+        <title> Register | RH -CRM </title>
       </Helmet>
 
       <StyledRoot>

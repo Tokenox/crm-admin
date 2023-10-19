@@ -23,6 +23,7 @@ const LoginForm = () => {
       });
       const token = resonse?.data?.data?.token;
       document.cookie = `session=${token}`;
+      navigate('/dashboard/leads', { replace: true });
     } catch (error) {
       console.log(error);
     }

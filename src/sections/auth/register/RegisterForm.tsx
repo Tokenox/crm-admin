@@ -21,10 +21,10 @@ const RegisterForm = () => {
   const [agree, setAgree] = useState(false);
   const [verifyCode, setVerifyCode] = useState('');
   const navigate = useNavigate();
+
   const handleClick = async () => {
     try {
       // validation
-
       if (!email) {
         alert('Please enter email');
         return;
@@ -64,7 +64,6 @@ const RegisterForm = () => {
         email: email,
         type: 'EMAIL'
       });
-      console.log(response);
 
       if (response.status === 200) {
         setIsCodeSent(true);
