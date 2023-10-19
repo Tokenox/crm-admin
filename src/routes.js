@@ -10,6 +10,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import VerifyPage from './pages/VerifyPage';
 import NonVerifiedPage from './pages/NonVerified';
 import Leads from './pages/Leads';
+import RegisterPage from './pages/RegisterPage';
 
 export default function Router() {
   const routes = useRoutes([
@@ -36,6 +37,10 @@ export default function Router() {
     {
       path: 'nonverified',
       element: <NonVerifiedPage />
+    },
+    {
+      path: 'register',
+      element: <RegisterPage />
     },
     {
       element: <SimpleLayout />,
