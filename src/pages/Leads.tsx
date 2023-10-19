@@ -117,14 +117,22 @@ export default function Leads() {
     (async () => {
       try {
         const categoryResponse = await axios.get('http://localhost:4000/rest/category');
-        const response = await axios.get('http://localhost:4000/rest/lead');
         setCategories(categoryResponse?.data?.data);
-        setLeads(response?.data?.data);
+        await fetchLeads();
       } catch (error) {
         console.log('Error:(', error);
       }
     })();
   }, []);
+
+  const fetchLeads = async () => {
+    try {
+      const response = await axios.get('http://localhost:4000/rest/lead');
+      setLeads(response?.data?.data);
+    } catch (error) {
+      console.log('Error:(', error);
+    }
+  };
 
   const submitLead = async () => {
     try {
@@ -147,11 +155,12 @@ export default function Leads() {
 
   const submitBulkLeads = async () => {
     try {
-      debugger;
       if (!bulkLeads.length) return;
       const response = await axios.post('http://localhost:4000/rest/lead/bulk', bulkLeads);
-      setLeads([...leads, ...response?.data?.data]);
-      setIsCsvModalOpen(false);
+      if (response?.status === 200) {
+        await fetchLeads();
+        setIsCsvModalOpen(false);
+      }
     } catch (error) {
       console.log('Error:(', error);
     }
