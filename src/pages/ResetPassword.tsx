@@ -1,10 +1,11 @@
+import React from 'react';
 import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { Helmet } from 'react-helmet-async';
 import useResponsive from '../hooks/useResponsive';
 import Logo from '../components/logo';
 import Iconify from '../components/iconify';
-import LoginForm from '../sections/auth/login/LoginForm';
+import ResetPasswordForm from '../sections/auth/reset-password/ResetPasswordForm';
 
 const StyledRoot = styled('div')(({ theme }) => ({
   [theme.breakpoints.up('md')]: {
@@ -12,7 +13,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
   }
 }));
 
-const StyledSection = styled('div')(({ theme }) => ({
+const StyledSection = styled('div')(({ theme }: any) => ({
   width: '100%',
   maxWidth: 480,
   display: 'flex',
@@ -32,13 +33,13 @@ const StyledContent = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0)
 }));
 
-const LoginPage = () => {
+const ResetPasswordPage = () => {
   const mdUp = useResponsive('up', 'md');
 
   return (
     <>
       <Helmet>
-        <title> Login | RH -CRM </title>
+        <title> Reset Password | RH -CRM </title>
       </Helmet>
 
       <StyledRoot>
@@ -62,7 +63,7 @@ const LoginPage = () => {
         <Container maxWidth="sm">
           <StyledContent>
             <Typography variant="h4" gutterBottom>
-              Sign in to RH-CRM
+              Forgot Password RH-CRM
             </Typography>
 
             <Typography variant="body2" sx={{ mb: 5 }}>
@@ -92,7 +93,7 @@ const LoginPage = () => {
               </Typography>
             </Divider>
 
-            <LoginForm />
+            <ResetPasswordForm />
           </StyledContent>
         </Container>
       </StyledRoot>
@@ -100,4 +101,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default ResetPasswordPage;
