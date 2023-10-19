@@ -11,6 +11,7 @@ import VerifyPage from './pages/VerifyPage';
 import NonVerifiedPage from './pages/NonVerified';
 import Leads from './pages/Leads';
 import RegisterPage from './pages/RegisterPage';
+import ResetPasswordPage from './pages/ResetPassword';
 
 export default function Router() {
   const routes = useRoutes([
@@ -41,6 +42,10 @@ export default function Router() {
     {
       path: 'register',
       element: <RegisterPage />
+    },
+    {
+      path: 'reset-password',
+      element: <ResetPasswordPage />
     },
     {
       element: <SimpleLayout />,
