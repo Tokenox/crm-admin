@@ -1,103 +1,69 @@
-import React from 'react';
-import { Link, Container, Typography, Divider, Stack, Button } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import { Helmet } from 'react-helmet-async';
-import useResponsive from '../hooks/useResponsive';
-import Logo from '../components/logo';
+import React, { useState } from 'react';
+import { LoadingButton } from '@mui/lab';
+import { IconButton, InputAdornment, Stack, TextField } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
+import CustomInput from '../components/input/CustomInput';
+import AuthenticationLayout from '../layouts/AuthenticationLayout';
 import Iconify from '../components/iconify';
-import ResetPasswordForm from '../sections/auth/reset-password/ResetPasswordForm';
-
-const StyledRoot = styled('div')(({ theme }) => ({
-  [theme.breakpoints.up('md')]: {
-    display: 'flex'
-  }
-}));
-
-const StyledSection = styled('div')(({ theme }: any) => ({
-  width: '100%',
-  maxWidth: 480,
-  display: 'flex',
-  flexDirection: 'column',
-  justifyContent: 'center',
-  boxShadow: theme.customShadows.card,
-  backgroundColor: theme.palette.background.default
-}));
-
-const StyledContent = styled('div')(({ theme }) => ({
-  maxWidth: 480,
-  margin: 'auto',
-  minHeight: '100vh',
-  display: 'flex',
-  justifyContent: 'center',
-  flexDirection: 'column',
-  padding: theme.spacing(12, 0)
-}));
 
 const ResetPasswordPage = () => {
-  const mdUp = useResponsive('up', 'md');
+  const navigate = useNavigate();
+
+  const [verificationCode, setVerificationCode] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [showPassword, setShowPassword] = useState<boolean>(false);
+
+  const handleResetPassword = async () => {
+    try {
+      const response = await axios.put('http://localhost:4000/rest/auth/reset-password', {
+        code: verificationCode,
+        password: password
+      });
+      if (response?.status === 200) {
+        navigate('/login', { replace: true });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <>
-      <Helmet>
-        <title> Reset Password | RH -CRM </title>
-      </Helmet>
-
-      <StyledRoot>
-        <Logo
-          sx={{
-            position: 'fixed',
-            top: { xs: 16, sm: 24, md: 40 },
-            left: { xs: 16, sm: 24, md: 40 }
+    <AuthenticationLayout
+      title={'Reset Password'}
+      link={{
+        text: 'Verify Email',
+        to: '/verify-email'
+      }}
+    >
+      <Stack spacing={3}>
+        <CustomInput
+          value={verificationCode}
+          onChange={(e) => setVerificationCode(e.target.value)}
+          name="verificationCode"
+          label="Verification Code"
+        />
+        <TextField
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          name="password"
+          label="Password"
+          type={showPassword ? 'text' : 'password'}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton onClick={() => setShowPassword(!showPassword)} edge="end">
+                  <Iconify icon={showPassword ? 'eva:eye-fill' : 'eva:eye-off-fill'} />
+                </IconButton>
+              </InputAdornment>
+            )
           }}
         />
-
-        {mdUp && (
-          <StyledSection>
-            <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-              Hi, Welcome Back
-            </Typography>
-            <img src="/assets/illustrations/illustration_login.png" alt="login" />
-          </StyledSection>
-        )}
-
-        <Container maxWidth="sm">
-          <StyledContent>
-            <Typography variant="h4" gutterBottom>
-              Forgot Password RH-CRM
-            </Typography>
-
-            <Typography variant="body2" sx={{ mb: 5 }}>
-              Don’t have an account? {''}
-              <Link href="register" variant="subtitle2">
-                Register here
-              </Link>
-            </Typography>
-
-            <Stack direction="row" spacing={2}>
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:google-fill" color="#DF3E30" width={22} height={22} />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:phone-fill" color="#1877F2" width={22} height={22} />
-              </Button>
-
-              <Button fullWidth size="large" color="inherit" variant="outlined">
-                <Iconify icon="eva:twitter-fill" color="#1C9CEA" width={22} height={22} />
-              </Button>
-            </Stack>
-
-            <Divider sx={{ my: 3 }}>
-              <Typography variant="body2" sx={{ color: 'text.secondary' }}>
-                OR
-              </Typography>
-            </Divider>
-
-            <ResetPasswordForm />
-          </StyledContent>
-        </Container>
-      </StyledRoot>
-    </>
+      </Stack>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" sx={{ my: 3 }} onClick={handleResetPassword}>
+        Reset Password
+      </LoadingButton>
+    </AuthenticationLayout>
   );
 };
 

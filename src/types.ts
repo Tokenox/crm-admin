@@ -14,3 +14,15 @@ export type LeadsResponseTypes = {
   adminId?: string;
   orgId?: string;
 };
+
+export type RegisterOrgTypes = {
+  id?: string;
+  name: string;
+  email: string;
+  password: string;
+  confirmPassword?: string;
+  company: string;
+  agree?: boolean;
+  verifyCode?: string;
+
+}

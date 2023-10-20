@@ -34,7 +34,7 @@ import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import USERLIST from '../_mock/user';
-import { LeadsResponseTypes, LeadsTypes } from '../../type';
+import { LeadsResponseTypes, LeadsTypes } from '../types';
 import axios from 'axios';
 import CustomModal from '../components/modals/CustomModal';
 import CustomInput from '../components/input/CustomInput';

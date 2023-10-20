@@ -12,6 +12,7 @@ import NonVerifiedPage from './pages/NonVerified';
 import Leads from './pages/Leads';
 import RegisterPage from './pages/RegisterPage';
 import ResetPasswordPage from './pages/ResetPassword';
+import VerifyEmail from './pages/VerifyEmail';
 
 export default function Router() {
   const routes = useRoutes([
@@ -46,6 +47,10 @@ export default function Router() {
     {
       path: 'reset-password',
       element: <ResetPasswordPage />
+    },
+    {
+      path: 'verify-email',
+      element: <VerifyEmail />
     },
     {
       element: <SimpleLayout />,
