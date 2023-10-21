@@ -29,16 +29,19 @@ import {
   SelectChangeEvent
 } from '@mui/material';
 
-import Label from '../components/label';
 import Iconify from '../components/iconify';
 import Scrollbar from '../components/scrollbar';
 import { UserListHead, UserListToolbar } from '../sections/@dashboard/user';
 import USERLIST from '../_mock/user';
-import { LeadsResponseTypes, LeadsTypes } from '../types';
+import { CategoryResponseTypes, LeadsTypes } from '../types';
 import axios from 'axios';
 import CustomModal from '../components/modals/CustomModal';
 import CustomInput from '../components/input/CustomInput';
 import CsvUpload from '../components/upload-file/CsvUpload';
+import { getLeads } from '../redux/middleware/lead';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
+import { leadsList } from '../redux/slice/leadSlice';
+import createAbortController from '../utils/createAbortController';
 
 const TABLE_HEAD = [
   { id: 'firstName', label: 'First Name', alignRight: false },
@@ -89,10 +92,12 @@ const categoryInitialState = {
 };
 
 export default function Leads() {
-  const [leads, setLeads] = useState<LeadsTypes[]>([]);
-  const [categories, setCategories] = useState<LeadsResponseTypes[]>([]);
+  const dispatch = useAppDispatch();
+  const leads = useAppSelector(leadsList);
+  const { signal, abort } = createAbortController();
+  const [categories, setCategories] = useState<CategoryResponseTypes[]>([]);
   const [lead, setLead] = useState<LeadsTypes>(leadsInitialState);
-  const [category, setCategory] = useState<LeadsResponseTypes>(categoryInitialState);
+  const [category, setCategory] = useState<CategoryResponseTypes>(categoryInitialState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
   const [isCsvModalOpen, setIsCsvModalOpen] = useState<boolean>(false);
@@ -116,28 +121,24 @@ export default function Leads() {
     axios.defaults.withCredentials = true;
     (async () => {
       try {
-        const categoryResponse = await axios.get('http://localhost:4000/rest/category');
+        const categoryResponse = await axios.get('http://localhost:4000/rest/category', {
+          signal
+        });
+        dispatch(getLeads({ signal }));
         setCategories(categoryResponse?.data?.data);
-        await fetchLeads();
       } catch (error) {
         console.log('Error:(', error);
       }
     })();
+    return () => {
+      abort();
+    };
   }, []);
-
-  const fetchLeads = async () => {
-    try {
-      const response = await axios.get('http://localhost:4000/rest/lead');
-      setLeads(response?.data?.data);
-    } catch (error) {
-      console.log('Error:(', error);
-    }
-  };
 
   const submitLead = async () => {
     try {
       const response = await axios.post('http://localhost:4000/rest/lead', lead);
-      setLeads([...leads, response?.data?.data]);
+      // setLeads([...leads, response?.data?.data]);
       setIsModalOpen(false);
     } catch (error) {
       console.log('Error:(', error);
@@ -158,7 +159,7 @@ export default function Leads() {
       if (!bulkLeads.length) return;
       const response = await axios.post('http://localhost:4000/rest/lead/bulk', bulkLeads);
       if (response?.status === 200) {
-        await fetchLeads();
+        dispatch(getLeads({ signal }));
         setIsCsvModalOpen(false);
       }
     } catch (error) {
@@ -254,7 +255,7 @@ export default function Leads() {
           </Box>
         </Stack>
         <Stack direction="row" alignItems="center" gap={2} mb={5}>
-          {categories.map((category: LeadsResponseTypes) => (
+          {categories.map((category: CategoryResponseTypes) => (
             <Button key={category.id} variant="outlined">
               {category.name}
             </Button>
@@ -305,7 +306,7 @@ export default function Leads() {
                   setLead({ ...lead, categoryId: e.target.value });
                 }}
               >
-                {categories.map((category: LeadsResponseTypes) => (
+                {categories.map((category: CategoryResponseTypes) => (
                   <MenuItem key={category.id} value={category.id}>
                     {category.name}
                   </MenuItem>
@@ -434,7 +435,7 @@ export default function Leads() {
                   onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
-                  {leads.map((lead: LeadsTypes, index) => {
+                  {leads?.map((lead: LeadsTypes, index) => {
                     const { id, firstName, lastName, email, phone } = lead;
                     const selectedUser = selected.indexOf(filterName) !== -1;
 

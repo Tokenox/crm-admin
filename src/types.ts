@@ -7,7 +7,7 @@ export type LeadsTypes = {
   categoryId: string;
 };
 
-export type LeadsResponseTypes = {
+export type CategoryResponseTypes = {
   id?: string;
   name: string;
   description: string;

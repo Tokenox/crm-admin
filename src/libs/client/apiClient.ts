@@ -14,6 +14,10 @@ const apiInstance: AxiosInstance = axios.create({
 interface RequestConfig<T> {
   data?: T;
   headers?: Record<string, string>;
+  params?: Record<string, string>;
+  timeout?: number;
+  withCredentials?: boolean;
+
   // Add more request-specific configuration options as needed
 }
 
@@ -26,10 +30,6 @@ interface ApiResponse<T> {
   config: AxiosRequestConfig;
   request?: any;
 }
-
-// Set up default configuration
-apiInstance.defaults.headers.common['Authorization'] = 'Bearer YourAccessToken';
-// Add more default configuration options as needed
 
 // Request Interceptor
 apiInstance.interceptors.request.use(
