@@ -7,12 +7,17 @@ export type LeadsTypes = {
   categoryId: string;
 };
 
-export type CategoryResponseTypes = {
-  id?: string;
+export type CategoryTypes = {
   name: string;
   description: string;
-  adminId?: string;
-  orgId?: string;
+};
+
+export type CategoryResponseTypes = {
+  id: string;
+  name: string;
+  description: string;
+  adminId: string;
+  orgId: string;
 };
 
 export type RegisterOrgTypes = {
@@ -24,5 +29,4 @@ export type RegisterOrgTypes = {
   company: string;
   agree?: boolean;
   verifyCode?: string;
-
-}
+};

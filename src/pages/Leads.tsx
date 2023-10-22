@@ -95,9 +95,10 @@ export default function Leads() {
   const dispatch = useAppDispatch();
   const leads = useAppSelector(leadsList);
   const { signal, abort } = createAbortController();
+  
   const [categories, setCategories] = useState<CategoryResponseTypes[]>([]);
   const [lead, setLead] = useState<LeadsTypes>(leadsInitialState);
-  const [category, setCategory] = useState<CategoryResponseTypes>(categoryInitialState);
+  const [category, setCategory] = useState(categoryInitialState);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [isCategoryModalOpen, setIsCategoryModalOpen] = useState<boolean>(false);
   const [isCsvModalOpen, setIsCsvModalOpen] = useState<boolean>(false);
