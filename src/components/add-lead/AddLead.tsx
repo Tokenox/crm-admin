@@ -2,15 +2,16 @@ import React from 'react';
 import { Box, Button, FormControl, Grid, InputLabel, MenuItem, Select, SelectChangeEvent } from '@mui/material';
 import { useAppSelector } from '../../hooks/hooks';
 import { categorySelector } from '../../redux/slice/categorySlice';
-import { CategoryResponseTypes } from '../../types';
+import { CategoryResponseTypes, FieldTypes } from '../../types';
 import CustomInput from '../input/CustomInput';
 
 interface AddLeadProps {
-  leadValue: any;
-  selectedCategory: string;
-  setSelectedCategory: React.Dispatch<React.SetStateAction<string>>;
+  leadValue: {
+    name: string;
+    type: string;
+    value: string;
+  }[];
   getAddLeadData: (value: string, name: string, index: number) => void;
-  addNewLead: () => void;
 }
 
 export const leadsInitialState = {
@@ -19,12 +20,12 @@ export const leadsInitialState = {
   value: ''
 };
 
-const AddLead = ({ leadValue, selectedCategory, setSelectedCategory, addNewLead, getAddLeadData }: AddLeadProps) => {
-  const categories: CategoryResponseTypes[] = useAppSelector(categorySelector);
+const AddLead = ({ leadValue, getAddLeadData }: AddLeadProps) => {
+  //   const categories: CategoryResponseTypes[] = useAppSelector(categorySelector);
 
   return (
     <Grid>
-      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
+      {/* <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
         <Button
           variant="contained"
           onClick={() => {
@@ -33,43 +34,42 @@ const AddLead = ({ leadValue, selectedCategory, setSelectedCategory, addNewLead,
         >
           + New Field
         </Button>
-      </Box>
+      </Box> */}
 
       {leadValue?.map((lead, index) => (
-        <Grid container spacing={2} key={index}>
-          <Grid item xs={4}>
-            <CustomInput
-              label="Field Name"
-              name="fieldName"
-              value={lead.fieldName}
-              onChange={(e) => {
-                getAddLeadData(e.target.value, e.target.name, index);
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
+        <Box key={index}>
+          <CustomInput
+            label={lead.name}
+            name={lead.name}
+            value={lead.value}
+            onChange={(e) => {
+              getAddLeadData(e.target.value, e.target.name, index);
+            }}
+          />
+
+          {/* <Grid item xs={4}>
             <CustomInput
               label="Type"
               name="type"
               value={lead.type}
               onChange={(e) => {
-                getAddLeadData(e.target.value, e.target.name, index);
-              }}
-            />
-          </Grid>
-          <Grid item xs={4}>
-            <CustomInput
-              label="Value"
-              name="value"
-              value={lead.value}
-              onChange={(e) => {
-                getAddLeadData(e.target.value, e.target.name, index);
-              }}
-            />
-          </Grid>
-        </Grid>
+                  getAddLeadData(e.target.value, e.target.name, index);
+                }}
+                />
+                </Grid>
+                <Grid item xs={4}>
+                <CustomInput
+                label="Value"
+                name="value"
+                value={lead.value}
+                onChange={(e) => {
+                    getAddLeadData(e.target.value, e.target.name, index);
+                }}
+                />
+            </Grid> */}
+        </Box>
       ))}
-      <FormControl fullWidth sx={{ mt: '.8rem' }}>
+      {/* <FormControl fullWidth sx={{ mt: '.8rem' }}>
         <InputLabel id="demo-simple-select-label">Select Category</InputLabel>
         <Select
           labelId="demo-simple-select-label"
@@ -86,7 +86,7 @@ const AddLead = ({ leadValue, selectedCategory, setSelectedCategory, addNewLead,
             </MenuItem>
           ))}
         </Select>
-      </FormControl>
+      </FormControl> */}
     </Grid>
   );
 };
