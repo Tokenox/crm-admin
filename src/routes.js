@@ -17,10 +17,13 @@ import DynamicLead from './pages/DynamicLead';
 import CompleteRegistration from './pages/CompleteRegistration';
 
 export default function Router() {
+  let session = document.cookie.split(';').find((item) => item.includes('session'));
+  session = session ? session.split('=')[1] : null;
+
   const routes = useRoutes([
     {
       path: '/dashboard',
-      element: <DashboardLayout />,
+      element: session ? <DashboardLayout /> : <Navigate to="/login" replace />,
       children: [
         { element: <Navigate to="/dashboard/app" />, index: true },
         { path: 'app', element: <DashboardAppPage /> },

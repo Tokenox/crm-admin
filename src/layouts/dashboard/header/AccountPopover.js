@@ -110,10 +110,10 @@ export default function AccountPopover() {
         <MenuItem
           // onClick={handleClose}
           sx={{ m: 1 }}
-          onClick={() => {
-            navigate('/login', { replace: true });
+          onClick={async () => {
+            await dispatch(logout());
             handleClose();
-            dispatch(logout());
+            navigate('/login', { replace: true });
           }}
         >
           Logout

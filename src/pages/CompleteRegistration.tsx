@@ -25,12 +25,12 @@ const CompleteRegistration = () => {
   const [code, setCode] = useState<string>('');
 
   const submitRegister = async () => {
-    dispatch(startVerification({ email: registerData.email, type: 'email' }));
+    await dispatch(startVerification({ email: registerData.email, type: 'email' }));
   };
 
   const handleCompleteVerification = async () => {
-    dispatch(register({ email: registerData.email, name: registerData.name, password: registerData.password }));
-    dispatch(completeVerification({ email: registerData.email, code: code }));
+    await dispatch(register({ email: registerData.email, name: registerData.name, password: registerData.password }));
+    await dispatch(completeVerification({ email: registerData.email, code: code }));
     navigate('/login', { replace: true });
   };
 

@@ -99,8 +99,9 @@ export default function UserPage() {
   const [user, setUser] = useState(initialState);
 
   useEffect(() => {
-    dispatch(getUsers({ signal }));
-
+    (async () => {
+      await dispatch(getUsers({ signal }));
+    })();
     return () => {
       abort();
     };

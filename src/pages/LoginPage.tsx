@@ -20,8 +20,7 @@ const LoginPage = () => {
 
   const handleClick = async () => {
     try {
-      dispatch(login({ email, password }));
-
+      await dispatch(login({ email, password }));
       navigate('/dashboard', { replace: true });
     } catch (error) {
       console.log(error);
