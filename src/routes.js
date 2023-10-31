@@ -10,7 +10,7 @@ import DashboardAppPage from './pages/DashboardAppPage';
 import VerifyPage from './pages/VerifyPage';
 import NonVerifiedPage from './pages/NonVerified';
 import Leads from './pages/Leads';
-import RegisterPage from './pages/RegisterPage';
+// import RegisterPage from './pages/RegisterPage';
 import ResetPasswordPage from './pages/ResetPassword';
 import VerifyEmail from './pages/VerifyEmail';
 import DynamicLead from './pages/DynamicLead';

@@ -84,7 +84,7 @@ const initialState = {
 export default function UserPage() {
   const dispatch = useAppDispatch();
   const users = useAppSelector(adminSelector);
-  const loggedInUser = useAppSelector(authSelector);
+  const { loggedInUser } = useAppSelector(authSelector);
   const { signal, abort } = createAbortController();
 
   const [open, setOpen] = useState(null);

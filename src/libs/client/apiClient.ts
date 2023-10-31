@@ -1,8 +1,7 @@
 import axios from 'axios';
 
 const apiClient = axios.create({
-  baseURL: 'https://recrm-dd33eadabf10.herokuapp.com',
-  // baseURL: 'http://localhost:4000/rest',
+  baseURL: 'http://localhost:4000/rest',
   timeout: 30000,
   withCredentials: true,
   headers: {
