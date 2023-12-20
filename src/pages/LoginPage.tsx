@@ -6,12 +6,15 @@ import { LoadingButton } from '@mui/lab';
 import AuthenticationLayout from '../layouts/AuthenticationLayout';
 import Iconify from '../components/iconify';
 import CustomInput from '../components/input/CustomInput';
-import { useAppDispatch } from '../hooks/hooks';
+import { useAppDispatch, useAppSelector } from '../hooks/hooks';
 import { login } from '../redux/middleware/authentication';
+import { setAlert } from '../redux/slice/alertSlice';
+import { authSelector } from '../redux/slice/authSlice';
 
 const LoginPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { loading } = useAppSelector(authSelector);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -20,9 +23,33 @@ const LoginPage = () => {
 
   const handleClick = async () => {
     try {
-      await dispatch(login({ email, password }));
-      navigate('/dashboard', { replace: true });
+      if (!email || !password) return dispatch(setAlert({ message: 'Please fill all fields', type: 'error' }));
+      const response: any = await dispatch(login({ email, password }));
+      if (response && response.error && response.error.message) {
+        dispatch(
+          setAlert({
+            message: response.error.message,
+            type: 'error'
+          })
+        );
+        return;
+      }
+      if (response && response.payload) {
+        dispatch(
+          setAlert({
+            message: 'Login successful',
+            type: 'success'
+          })
+        );
+      }
+      navigate('/dashboard/deals', { replace: true });
     } catch (error) {
+      dispatch(
+        setAlert({
+          message: error.response.data.message,
+          type: 'error'
+        })
+      );
       console.log(error);
     }
   };
@@ -53,7 +80,7 @@ const LoginPage = () => {
         <Link to="/verify-email">Forgot password?</Link>
       </Stack>
 
-      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick}>
+      <LoadingButton fullWidth size="large" type="submit" variant="contained" onClick={handleClick} loading={loading}>
         Login
       </LoadingButton>
     </AuthenticationLayout>

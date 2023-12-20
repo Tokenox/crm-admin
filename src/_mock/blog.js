@@ -4,8 +4,9 @@ import { faker } from '@faker-js/faker';
 
 const POST_TITLES = [
   'Whiteboard Templates By Industry Leaders',
-  'Tesla Cybertruck-inspired camper trailer for Tesla fans who can’t just wait for the truck!',
-  'Designify Agency Landing Page Design',
+  'Voltaic university',
+  'Voltaic Adder Sheet',
+  'Voltaic Dealer Rates',
   '✨What is Done is Done ✨',
   'Fresh Prince',
   'Six Socks Studio',
@@ -15,7 +16,7 @@ const POST_TITLES = [
   'Examining the Evolution of the Typical Web Design Client',
   'Katie Griffin loves making that homey art',
   'The American Dream retold through mid-century railroad graphics',
-  'Illustration System Design',
+  'Voltaic',
   'CarZio-Delivery Driver App SignIn/SignUp',
   'How to create a client-serverless Jamstack app using Netlify, Gatsby and Fauna',
   'Tylko Organise effortlessly -3D & Motion Design',
@@ -26,22 +27,27 @@ const POST_TITLES = [
   'Akkers van Margraten',
   'Gradient Ticket icon',
   'Here’s a Dyson motorcycle concept that doesn’t ‘suck’!',
-  'How to Animate a SVG with border-image',
+  'How to Animate a SVG with border-image'
 ];
+const links = [
+  "https://www.youtube.com/channel/UCvWp2awdOyhd28f7FQOPGPw",
+"https://docs.google.com/spreadsheets/d/1TckEylF3qWgF8VjXzUjKm5KOsSokTVM9tJsySLpBA-w/edit#gid=0",
+"https://vccrm.vercel.app/dashboard/rates"];
 
-const posts = [...Array(23)].map((_, index) => ({
+const posts = [...Array(3)].map((_, index) => ({
   id: faker.datatype.uuid(),
   cover: `/assets/images/covers/cover_${index + 1}.jpg`,
+  link: links[index],
   title: POST_TITLES[index + 1],
   createdAt: faker.date.past(),
   view: faker.datatype.number(),
-  comment: faker.datatype.number(),
-  share: faker.datatype.number(),
-  favorite: faker.datatype.number(),
+  // comment: faker.datatype.number(),
+  // share: faker.datatype.number(),
+  // favorite: faker.datatype.number(),
   author: {
     name: faker.name.fullName(),
-    avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`,
-  },
+    avatarUrl: `/assets/images/avatars/avatar_${index + 1}.jpg`
+  }
 }));
 
 export default posts;
