@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { urls } from '../../apiConfig';
 
-const env = process.env.REACT_APP_STAGE || 'local';
-export const baseURL = urls[env];
+const env = process.env.REACT_APP_STAGE || 'development';
+export const baseURL = 'https://recrm-dd33eadabf10.herokuapp.com/rest';
 
 const authToken = localStorage.getItem('authToken');
 const apiClient = axios.create({
