@@ -1910,7 +1910,7 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/x-data-grid-generator@^6.18.0":
+"@mui/x-data-grid-generator@^6.18.6":
   version "6.18.6"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid-generator/-/x-data-grid-generator-6.18.6.tgz#aaa948b2c82dbd9e8d37cc701ba90aa93dcd7134"
   integrity sha512-gjdm2Ha+wgMeOiHLng7WhxbKE8V5WsvUrVBttgmN3VrAMGtWd7Jf6V1y5XhCLhUjfZiq4a19qBaS8LU2mHD4kA==
@@ -1938,7 +1938,7 @@
     prop-types "^15.8.1"
     reselect "^4.1.8"
 
-"@mui/x-data-grid-pro@6.18.6", "@mui/x-data-grid-pro@^6.17.0":
+"@mui/x-data-grid-pro@6.18.6", "@mui/x-data-grid-pro@^6.18.6":
   version "6.18.6"
   resolved "https://registry.yarnpkg.com/@mui/x-data-grid-pro/-/x-data-grid-pro-6.18.6.tgz#2a21dd92c76c410581215d37259759e8592a2d08"
   integrity sha512-fyex5IcRrtT7K6JoY/FoWFjlIaXmJ3tQgWh4ew8YG46jVvCtZlumQgGw5bSjs2/QVp0NVeXlp9nZ5O8dSN8xLg==
@@ -4722,9 +4722,9 @@ ejs@^3.1.6:
     jake "^10.8.5"
 
 electron-to-chromium@^1.4.601:
-  version "1.4.618"
-  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.618.tgz#98899b3c78495157cc2fe4944316f686939a435d"
-  integrity sha512-mTM2HieHLxs1RbD/R/ZoQLMsGI8lWIkP17G7cx32mJRBJt9wlNPkXwE3sYg/OnNb5GBkus98lXatSthoL8Y5Ag==
+  version "1.4.619"
+  resolved "https://registry.yarnpkg.com/electron-to-chromium/-/electron-to-chromium-1.4.619.tgz#81d302a8284c669caca76e611aeb59337510f45f"
+  integrity sha512-gW4qlnHxa49kp9kXlLdvnwdYEUlQRio30QOR61YfOQU8MaC/NGHWiJhyMMUl1EwFHbbzQTxvP1Dypdw95DjIow==
 
 emittery@^0.10.2:
   version "0.10.2"
