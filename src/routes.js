@@ -25,6 +25,7 @@ import LeadDetailPage from './pages/LeadDetailPage';
 import DealerRates from './pages/DealerRates';
 import Assistant from './pages/Assistant';
 import Rookies from './pages/Rookies';
+import AvailabilityPlanner from './pages/AvailabilityPlanner';
 
 export default function Router() {
   let session = document.cookie.split(';').find((item) => item.includes('session'));
@@ -46,14 +47,13 @@ export default function Router() {
         },
         {
           path: 'user',
-          element: <UserPage />
+          element: data && data?.isSuperAdmin ? <UserPage /> : <Navigate to="/deals" replace />
         },
-        // element: data && data?.isSuperAdmin ? <UserPage /> : <Navigate to="/deals" replace />
 
         { path: 'products', element: <ProductsPage /> },
         { path: 'assistant', element: <Assistant /> },
         { path: 'lead/:id', element: <LeadDetailPage /> },
-        { path: 'vcboard', element: <VCDashboardAppPage /> },
+        { path: 'vcdash', element: <VCDashboardAppPage /> },
         { path: 'blog', element: <BlogPage /> },
         { path: 'leads', element: <Leads /> },
         { path: 'rookies', element: <Rookies /> },
@@ -63,6 +63,7 @@ export default function Router() {
         { path: 'pay', element: <PayPage /> },
         { path: 'dynamic-leads', element: <DynamicLead /> },
         { path: 'planner', element: <Planner /> },
+        { path: 'availability-planner', element: <AvailabilityPlanner /> },
         { path: 'deals', element: <DealsPage /> }
       ]
     },
