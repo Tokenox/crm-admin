@@ -94,6 +94,7 @@ const MyCalendar = ({ value, getActionData }: CalendarProps) => {
   const handleDropdownAction = (value) => {
     // Handle the action when an item in the dropdown is selected
     // For example, you can perform some action and then close the dropdown
+    console.log('Dropdown action performed', value);
     setIsModalOpen(true);
     closeDropdown();
   };
@@ -200,7 +201,7 @@ const MyCalendar = ({ value, getActionData }: CalendarProps) => {
         startAccessor="start"
         endAccessor="end"
         defaultDate={defaultDate}
-        //defaultView={Views.MONTH}
+        defaultView={Views.MONTH}
         style={{ height: 500 }}
         selectable={true}
         onSelectEvent={handleSelectEvent}

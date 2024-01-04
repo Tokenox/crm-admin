@@ -7,12 +7,12 @@ import DialogTitle from '@mui/material/DialogTitle';
 import CircularProgress from '@mui/material/CircularProgress';
 
 interface CustomModalProps {
-  title?: string;
+  title: string;
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  handleSubmit?: () => void;
-  children?: React.ReactNode;
-  size?: 'xs' | 'sm' | 'md' | 'lg';
+  handleSubmit: () => void;
+  children: React.ReactNode;
+  size?: 'sm' | 'md' | 'lg';
   loading?: boolean;
   setIsEdit?: React.Dispatch<React.SetStateAction<boolean>>;
 }
@@ -34,22 +34,20 @@ const CustomModal = ({ title, open, setOpen, handleSubmit, setIsEdit, size = 'sm
       >
         <DialogTitle id="alert-dialog-title">{title}</DialogTitle>
         <DialogContent>{children}</DialogContent>
-        {title && (
-          <DialogActions>
-            <Button onClick={handleClose} autoFocus>
-              Cancel
+        <DialogActions>
+          <Button onClick={handleClose} autoFocus>
+            Cancel
+          </Button>
+          {loading ? (
+            <Button autoFocus>
+              <CircularProgress size='14px' sx={{ color: '#0F52BA' }} />
             </Button>
-            {loading ? (
-              <Button autoFocus>
-                <CircularProgress size="14px" sx={{ color: '#0F52BA' }} />
-              </Button>
-            ) : (
-              <Button onClick={handleSubmit} autoFocus>
-                Submit
-              </Button>
-            )}
-          </DialogActions>
-        )}
+          ) : (
+            <Button onClick={handleSubmit} autoFocus>
+              Submit
+            </Button>
+          )}
+        </DialogActions>
       </Dialog>
     </div>
   );

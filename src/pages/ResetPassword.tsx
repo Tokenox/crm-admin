@@ -18,6 +18,7 @@ const ResetPasswordPage = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const handleResetPassword = async () => {
+    debugger;
     const response: any = await dispatch(forgotPassword({ code: verificationCode, password: password }));
     if (response && response.error && response.error.message) {
       dispatch(
