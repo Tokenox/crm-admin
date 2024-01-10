@@ -1,10 +1,14 @@
 export type LeadsTypes = {
-  id?: string;
+  id: string;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
-  categoryId: string;
+  message: string;
+  source: string;
+  status: string;
+  saleRepId: string;
+  isNotify: boolean;
 };
 
 export type CategoryTypes = {
@@ -39,17 +43,17 @@ export type FieldTypes = {
 };
 
 export type PlannerDataTypes = {
-  title?: string;
-  action?: string;
+  title: string;
+  action: SocialActionClient;
   description?: string;
-  startDate: string;
-  timeOfExecution: string;
+  startDate: number;
+  timeOfExecution: number;
   source: string;
 };
 
 export type AvailabilityDataTypes = {
-  startDate: string;
-  endDate: string;
+  startTime: number;
+  endTime: number;
 };
 
 export type AvailabilityResponseTypes = {
@@ -58,7 +62,6 @@ export type AvailabilityResponseTypes = {
   endDate: string;
   adminId: string;
 };
-
 
 export type RoleDataTypes = {
   _id?: string;
@@ -93,3 +96,11 @@ export type LeadValueTypes = {
   type: string;
   value: string;
 };
+
+export enum SocialActionClient {
+  email = 'email',
+  sms = 'sms',
+  instagram = 'instagram',
+  facebook = 'facebook',
+  youtube = 'youtube'
+}
